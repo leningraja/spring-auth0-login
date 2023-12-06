@@ -1,15 +1,23 @@
-FROM ubuntu:latest AS build
+# Use Ubuntu as base image
+FROM ubuntu:latest
 
-RUN apt-get update
-RUN apt-get install openjdk-17-jdk -y
+# Set the working directory in the container
+WORKDIR /app
+
+# Update and install necessary dependencies
+RUN apt-get update && \
+    apt-get install -y openjdk-17-jdk maven
+
+# Copy the project files into the container
 COPY . .
 
+# Build the Spring Boot application using Maven
 RUN mvn clean install
 
-FROM openjdk:17-jdk-slim
-
+# Expose the port that the Spring Boot application will run on
 EXPOSE 3000
 
 COPY --from=build /target/spring-mvc-login-okta-0.0.1-SNAPSHOT.jar app.jar
 
-ENTRYPOINT ["java", "-jar", "app.jar"]
+# Command to run the Spring Boot application
+CMD ["java", "-jar", "app.jar"]
