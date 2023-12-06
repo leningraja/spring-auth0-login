@@ -17,7 +17,7 @@ RUN mvn clean install
 # Expose the port that the Spring Boot application will run on
 EXPOSE 3000
 
-COPY --from=build /target/spring-mvc-login-okta-0.0.1-SNAPSHOT.jar app.jar
+#COPY --from=build /target/spring-mvc-login-okta-0.0.1-SNAPSHOT.jar app.jar
 
 # Command to run the Spring Boot application
-CMD ["java", "-jar", "app.jar"]
+CMD ["java", "-jar", "/target/spring-mvc-login-okta-0.0.1-SNAPSHOT.jar"]
